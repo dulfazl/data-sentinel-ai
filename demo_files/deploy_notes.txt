@@ -1,0 +1,7 @@
+Deployment notes for the staging server
+
+Region: ap-south-1
+Release: 2.4.0
+api_key = sk_live_51HxTestKeyOnly
+
+Remember to restart the worker after deploying.

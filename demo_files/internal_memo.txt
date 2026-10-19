@@ -1,0 +1,6 @@
+Internal use only.
+
+Sprint planning notes for next week
+- Finish the login page redesign
+- Fix the export bug reported by the support team
+- Demo to the product owner on Thursday

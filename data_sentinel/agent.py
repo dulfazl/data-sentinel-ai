@@ -1,5 +1,6 @@
 """The endpoint agent: every channel runs as a thread on one shared, thread-safe engine."""
 import os
+import signal
 import threading
 import time
 
@@ -113,6 +114,9 @@ class Agent:
             self.gateway.stop()
 
     def run_forever(self):
+        def _terminate(signum, frame):              # treat a kill/TERM like Ctrl+C: stop cleanly
+            raise KeyboardInterrupt
+        signal.signal(signal.SIGTERM, _terminate)
         self.start()
         try:
             while True:

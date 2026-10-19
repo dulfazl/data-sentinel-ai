@@ -1,0 +1,12 @@
+# Optional extras - install only what you need:  pip install -r requirements-optional.txt
+
+# Browser-extension end-to-end test (tests/test_extension.py); afterwards run:
+#   python -m playwright install chromium
+playwright==1.52.0
+
+# scan-drive against a real Google account (needs credentials.json, see README)
+google-api-python-client>=2.100
+google-auth-oauthlib>=1.1
+
+# PostgreSQL instead of SQLite (set DATABASE_URL=postgresql://user:pass@host/db)
+psycopg[binary]>=3.1

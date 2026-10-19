@@ -1,6 +1,7 @@
 """Command line:  python -m data_sentinel <command>   (run with -h for help)."""
 import argparse
 import getpass
+import json
 import os
 import sqlite3
 import sys
@@ -233,6 +234,52 @@ def cmd_scan_drive(args):
     print(f"\n{len(results)} risky shared file(s) checked, {blocked} blocked.")
 
 
+def cmd_try_mail(args):
+    """Send a test e-mail through the running SMTP gateway and print its reply."""
+    import smtplib
+    from email.message import EmailMessage
+    msg = EmailMessage()
+    msg["From"], msg["To"], msg["Subject"] = args.sender, ", ".join(args.to), args.subject
+    msg.set_content(args.body)
+    for path in args.attach or []:
+        with open(path, "rb") as fh:
+            msg.add_attachment(fh.read(), maintype="application", subtype="octet-stream",
+                               filename=os.path.basename(path))
+    print(f"Sending '{args.subject}' from {args.sender} to {', '.join(args.to)} via 127.0.0.1:{args.port}"
+          + (f" with {', '.join(os.path.basename(a) for a in args.attach)}" if args.attach else ""))
+    try:
+        with smtplib.SMTP("127.0.0.1", args.port, timeout=30) as smtp:
+            smtp.send_message(msg)
+        print("Gateway reply: 250 accepted (delivered / saved to outbox)")
+    except smtplib.SMTPResponseException as exc:
+        print(f"Gateway reply: {exc.smtp_code} {exc.smtp_error.decode(errors='replace')}")
+    except OSError as exc:
+        sys.exit(f"Could not reach the mail gateway: {exc}  (start it with: python -m data_sentinel agent --mail)")
+
+
+def cmd_try_paste(args):
+    """Send text to the running browser scan API exactly like the extension does."""
+    import http.client
+    token = open(config.TOKEN_PATH).read().strip() if config.TOKEN_PATH.exists() else ""
+    text = open(args.file).read() if args.file else args.text
+    body = json.dumps({"kind": "paste", "host": args.host, "text": text})
+    try:
+        conn = http.client.HTTPConnection("127.0.0.1", args.port, timeout=30)
+        conn.request("POST", "/scan", body, {"Content-Type": "application/json", "X-Sentinel-Token": token})
+        resp = conn.getresponse()
+        out = json.loads(resp.read() or b"{}")
+    except OSError as exc:
+        sys.exit(f"Could not reach the browser API: {exc}  (start it with: python -m data_sentinel agent)")
+    if resp.status != 200:
+        sys.exit(f"API answered {resp.status}: {out}")
+    print(f"Paste of {len(text)} characters into {args.host}:")
+    print(f"  DECISION : {out['decision']}  (risk {out['score']} {out['level']}, {out['sensitivity']})")
+    if out.get("message"):
+        print(f"  Banner   : {out['message']}")
+    for r in out["reasons"]:
+        print(f"    - {r}")
+
+
 # --------------------------------------------------------------------------- parser
 def build_parser():
     ap = argparse.ArgumentParser(prog="python -m data_sentinel",
@@ -317,6 +364,22 @@ def build_parser():
     p.add_argument("--user", default=default_user(), help="user when the file owner is unknown")
     p.add_argument("--dry-run", action="store_true")
     p.set_defaults(func=cmd_scan_drive)
+
+    p = sub.add_parser("try-mail", help="demo: send a test e-mail through the running mail gateway")
+    p.add_argument("--to", nargs="+", default=["friend@gmail.com"])
+    p.add_argument("--sender", default=f"alice@{(config.company_domains() or ['company.com'])[0]}")
+    p.add_argument("--subject", default="Files you asked for")
+    p.add_argument("--body", default="Hi, please find the file attached.")
+    p.add_argument("--attach", nargs="*", metavar="FILE")
+    p.add_argument("--port", type=int, default=config.SMTP_PORT)
+    p.set_defaults(func=cmd_try_mail)
+
+    p = sub.add_parser("try-paste", help="demo: send a paste to the running browser API like the extension")
+    p.add_argument("--host", default="chatgpt.com")
+    p.add_argument("--text", default="api_key = sk_live_51HxTestKeyOnly")
+    p.add_argument("--file", help="read the text to paste from this file")
+    p.add_argument("--port", type=int, default=config.API_PORT)
+    p.set_defaults(func=cmd_try_paste)
     return ap
 
 
