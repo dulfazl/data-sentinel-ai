@@ -14,6 +14,6 @@
 - [x] Drive scanner (real + fake client, --fix)
 - [x] agent command (threads, --dry-run)
 - [x] Browser extension (MV3) + Playwright test
-- [ ] Dashboard
+- [x] Dashboard
 - [ ] demo_files/, start script, README.md, DEMO.md, requirements.txt
 - [ ] Final check: pytest, simulate, verify-audit, agent end-to-end, dashboard
