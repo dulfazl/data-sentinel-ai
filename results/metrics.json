@@ -1,0 +1,65 @@
+{
+  "dataset": {
+    "events": 5000,
+    "exfiltration": 250,
+    "train": 3500,
+    "test": 1500,
+    "test_leaks": 75,
+    "seed": 42
+  },
+  "threshold": 0.5,
+  "train_ms": 111.4,
+  "isolation_forest_raw_roc_auc": 0.9995695906432749,
+  "results": [
+    {
+      "approach": "Rule-based heuristic",
+      "precision": 0.6666666666666666,
+      "recall": 0.6666666666666666,
+      "f1": 0.6666666666666666,
+      "roc_auc": 0.7944842105263157,
+      "caught": 50,
+      "leaks": 75,
+      "false_alarms": 25
+    },
+    {
+      "approach": "Isolation Forest",
+      "precision": 0.9855072463768116,
+      "recall": 0.9066666666666666,
+      "f1": 0.9444444444444444,
+      "roc_auc": 0.9995695906432749,
+      "caught": 68,
+      "leaks": 75,
+      "false_alarms": 1
+    },
+    {
+      "approach": "Proposed hybrid",
+      "precision": 0.7373737373737373,
+      "recall": 0.9733333333333334,
+      "f1": 0.8390804597701149,
+      "roc_auc": 0.9968093567251463,
+      "caught": 73,
+      "leaks": 75,
+      "false_alarms": 26
+    }
+  ],
+  "caught_by_pattern": {
+    "night bulk copy": {
+      "heuristic": 25,
+      "isolation_forest": 25,
+      "hybrid": 25,
+      "total": 25
+    },
+    "large sensitive file": {
+      "heuristic": 0,
+      "isolation_forest": 23,
+      "hybrid": 23,
+      "total": 25
+    },
+    "burst of small files": {
+      "heuristic": 25,
+      "isolation_forest": 20,
+      "hybrid": 25,
+      "total": 25
+    }
+  }
+}
