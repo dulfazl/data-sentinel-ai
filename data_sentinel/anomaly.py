@@ -45,28 +45,29 @@ class AnomalyDetector:
             try:
                 import joblib
                 self.model = joblib.load(path)
-                self.source = "Isolation Forest (saved model)"
+                self.source = "Isolation Forest, saved model"
             except Exception as exc:         # unreadable model: fall back gracefully
                 print(f"  [anomaly] could not load {path.name}: {exc}; using heuristic")
                 self.model = None
 
     @property
     def saved(self):
-        return self.source.endswith("(saved model)")
+        return self.source.endswith("saved model")
 
     def maybe_train(self):
         """Train on the database once it has MIN_TRAIN_ROWS events (re-train every +50)."""
         if self.saved:
             return
         with self._lock:
-            rows = self.db.query("SELECT features FROM risk_assessments WHERE features IS NOT NULL")
-            n = len(rows)
+            n = self.db.scalar("SELECT COUNT(*) AS n FROM risk_assessments WHERE features IS NOT NULL") or 0
             if n < config.MIN_TRAIN_ROWS or n < self._trained_rows + config.MIN_TRAIN_ROWS:
                 return
+            rows = self.db.query("SELECT features FROM risk_assessments WHERE features IS NOT NULL")
+            n = len(rows)
             X = np.array([[float(json.loads(r["features"])[k]) for k in config.FEATURES] for r in rows])
             self.model = new_model().fit(X)
             self._trained_rows = n
-            self.source = f"Isolation Forest (trained on {n} database events)"
+            self.source = f"Isolation Forest, trained on {n} database events"
 
     def score(self, feats):
         """Return (anomaly, ml_score or None, heuristic)."""
