@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Data Sentinel AI</title>
+  <style>
+    :root { color-scheme: light dark; --bg: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --good: #0ca30c; --bad: #d03b3b; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; } }
+    body { margin: 0; width: 280px; padding: 14px 16px; background: var(--bg); color: var(--ink);
+           font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    h1 { font-size: 15px; margin: 0 0 8px; }
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; background: var(--ink2); }
+    .dot.ok { background: var(--good); } .dot.bad { background: var(--bad); }
+    p { margin: 6px 0; color: var(--ink2); }
+    a { color: inherit; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>Data Sentinel AI</h1>
+  <div><span id="dot" class="dot"></span><span id="state">Checking agent...</span></div>
+  <p>Uploads, drag-and-drop and pastes of 20+ characters are checked before the site receives them.</p>
+  <p><a href="#" id="opts">Options</a></p>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Data Sentinel AI - options</title>
+  <style>
+    :root { color-scheme: light dark; --bg: #f9f9f7; --card: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+            --line: #e1e0d9; --accent: #2a78d6; --good: #006300; --bad: #d03b3b; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0d0d0d; --card: #1a1a19; --ink: #f0efec; --ink2: #c3c2b7; --line: #2c2c2a;
+              --accent: #3987e5; --good: #0ca30c; --bad: #e66767; }
+    }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 560px; margin: 32px auto; padding: 0 16px; }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    p.sub { color: var(--ink2); margin: 0 0 20px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+    label { display: block; font-weight: 600; margin: 14px 0 4px; }
+    label:first-child { margin-top: 0; }
+    .hint { color: var(--ink2); font-size: 12px; margin-top: 2px; }
+    input[type=text], input[type=password], textarea { width: 100%; box-sizing: border-box; padding: 8px 10px;
+      border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: inherit; }
+    textarea { min-height: 64px; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+    .row { display: flex; align-items: center; gap: 8px; margin-top: 16px; }
+    .row label { margin: 0; font-weight: 500; }
+    button { margin-top: 20px; padding: 9px 16px; border: 0; border-radius: 8px; background: var(--accent);
+             color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+    #status { margin-top: 14px; min-height: 1.5em; font-weight: 600; }
+    #status.ok { color: var(--good); } #status.bad { color: var(--bad); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Data Sentinel AI</h1>
+  <p class="sub">Uploads, drag-and-drop and pastes are checked by the local agent before a website gets them.</p>
+  <div class="card">
+    <label for="agentUrl">Agent URL</label>
+    <input type="text" id="agentUrl" placeholder="http://127.0.0.1:8765">
+    <label for="token">Token</label>
+    <input type="password" id="token" autocomplete="off" placeholder="paste the contents of .sentinel_token">
+    <div class="hint">Shown when the agent starts, and saved in the project folder as <code>.sentinel_token</code>.</div>
+    <div class="row">
+      <input type="checkbox" id="blockWhenOffline">
+      <label for="blockWhenOffline">Block uploads and pastes when the agent is offline</label>
+    </div>
+    <label for="skipSites">Sites to skip</label>
+    <textarea id="skipSites"></textarea>
+    <div class="hint">One host per line (with port if needed). The dashboard is skipped so its "check a file" upload works.</div>
+    <button id="save">Save and test</button>
+    <div id="status" role="status"></div>
+  </div>
+</main>
+<script src="options.js"></script>
+</body>
+</html>

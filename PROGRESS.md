@@ -13,7 +13,7 @@
 - [x] SMTP gateway (550, header, relay/outbox)
 - [x] Drive scanner (real + fake client, --fix)
 - [x] agent command (threads, --dry-run)
-- [ ] Browser extension (MV3) + Playwright test
+- [x] Browser extension (MV3) + Playwright test
 - [ ] Dashboard
 - [ ] demo_files/, start script, README.md, DEMO.md, requirements.txt
 - [ ] Final check: pytest, simulate, verify-audit, agent end-to-end, dashboard

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Data Sentinel AI",
+  "version": "1.0.0",
+  "description": "Data Loss Prevention: checks uploads, drag-and-drop and pastes with the local Data Sentinel agent before a website receives them.",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["page_hook.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ],
+  "options_page": "options.html",
+  "action": { "default_title": "Data Sentinel AI", "default_popup": "popup.html" },
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+}
