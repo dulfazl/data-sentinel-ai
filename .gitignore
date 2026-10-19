@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# runtime data (created by the agent / demo)
+data_sentinel.db
+data_sentinel.db-*
+*.db.bak-*
+.sentinel_token
+quarantine/
+outbox/
+demo_usb/
+logs/
+# Google Drive OAuth secrets
+credentials.json
+.drive_token*.json
+.DS_Store
