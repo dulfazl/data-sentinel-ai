@@ -15,5 +15,11 @@
 - [x] agent command (threads, --dry-run)
 - [x] Browser extension (MV3) + Playwright test
 - [x] Dashboard
-- [ ] demo_files/, start script, README.md, DEMO.md, requirements.txt
-- [ ] Final check: pytest, simulate, verify-audit, agent end-to-end, dashboard
+- [x] demo_files/, start script, README.md, DEMO.md, requirements.txt
+- [x] Final check: pytest (125 passed), simulate (10/10 decisions), verify-audit (intact),
+      agent end-to-end via start_demo.command (USB quarantine, dry-run, SMTP 550, API paste BLOCK), dashboard
+
+## Not verified here
+- Extension on the live Google Drive / Gmail / ChatGPT sites (tested on a local page in Chromium) - see DEMO.md checklist
+- Real USB stick, real sync folders, real Google Drive account (not touched, by design)
+- PostgreSQL (no server on this machine); Windows/Linux USB code (simulated inputs only)
