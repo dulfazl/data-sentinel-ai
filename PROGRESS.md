@@ -7,7 +7,7 @@
 - [x] CLI: init-db, simulate, report, verify-audit, check, watch, monitor, device, user
 - [x] simulate gives A–J + D decisions from the review document
 - [x] ML: train_eval.py, model + results saved
-- [ ] ML: compare_algorithms.py + Luhn test
+- [x] ML: compare_algorithms.py + Luhn test
 - [x] Channels: folder watcher, USB discovery, sync folders, network shares
 - [x] Browser scan API (token, no CORS, 413)
 - [x] SMTP gateway (550, header, relay/outbox)

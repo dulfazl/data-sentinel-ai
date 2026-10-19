@@ -8,7 +8,7 @@
     "seed": 42
   },
   "threshold": 0.5,
-  "train_ms": 111.4,
+  "train_ms": 108.0,
   "isolation_forest_raw_roc_auc": 0.9995695906432749,
   "results": [
     {

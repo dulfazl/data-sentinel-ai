@@ -91,9 +91,9 @@ def main():
     print(f"{'Approach':<22}{'Precision':>10}{'Recall':>9}{'F1':>8}{'ROC-AUC':>9}  Caught    | review doc")
     for r in rows:
         ref = REVIEW[r["approach"]]
-        print(f"{r['approach']:<22}{r['precision']:>10.1%}{r['recall']:>9.1%}{r['f1']:>8.1%}{r['roc_auc']:>9.1%}"
+        print(f"{r['approach']:<22}{r['precision']:>10.1%}{r['recall']:>9.1%}{r['f1']:>8.1%}{r['roc_auc']:>9.2%}"
               f"  {r['caught']:>2} of {r['leaks']}  | P {ref[0]} R {ref[1]} F1 {ref[2]} AUC {ref[3]}")
-    print(f"Isolation Forest raw-score ROC-AUC: {raw_auc:.1%}   training time {train_ms:.0f} ms")
+    print(f"Isolation Forest raw-score ROC-AUC: {raw_auc:.2%}   training time {train_ms:.0f} ms")
     print("Saved models/anomaly_iforest.joblib, results/metrics.json, results/ml_evaluation.md, results/roc_curve.png")
 
 
@@ -109,8 +109,8 @@ def write_markdown(m):
              "|---|---|---|---|---|---|---|"]
     for r in m["results"]:
         lines.append(f"| {r['approach']} | {r['precision']:.1%} | {r['recall']:.1%} | {r['f1']:.1%} | "
-                     f"{r['roc_auc']:.1%} | {r['caught']} of {r['leaks']} | {r['false_alarms']} |")
-    lines += ["", f"Isolation Forest ROC-AUC on the raw (unclipped) score: {m['isolation_forest_raw_roc_auc']:.1%}.",
+                     f"{r['roc_auc']:.2%} | {r['caught']} of {r['leaks']} | {r['false_alarms']} |")
+    lines += ["", f"Isolation Forest ROC-AUC on the raw (unclipped) score: {m['isolation_forest_raw_roc_auc']:.2%}.",
               "", "## Leaks caught by pattern", "",
               "| Pattern | Leaks | Heuristic | Isolation Forest | Hybrid |", "|---|---|---|---|---|"]
     for pat, c in m["caught_by_pattern"].items():
@@ -135,7 +135,7 @@ def plot_roc(y, curves):
     ax.plot([0, 1], [0, 1], color=viz.BASELINE, linewidth=1)
     for (name, score), color in zip(curves, viz.SERIES):
         fpr, tpr, _ = roc_curve(y, score)
-        ax.plot(fpr, tpr, color=color, linewidth=2, label=f"{name} (AUC {roc_auc_score(y, score):.1%})",
+        ax.plot(fpr, tpr, color=color, linewidth=2, label=f"{name} (AUC {roc_auc_score(y, score):.2%})",
                 solid_joinstyle="round", solid_capstyle="round")
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1.01)

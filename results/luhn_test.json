@@ -1,0 +1,16 @@
+{
+  "random_numbers": 10000,
+  "seed": 42,
+  "false_alarms_regex_only": 10000,
+  "false_alarms_regex_plus_luhn": 980,
+  "reduction": 0.902,
+  "test_cards_detected": {
+    "Visa": true,
+    "Mastercard": true,
+    "Amex": true,
+    "Discover": true,
+    "JCB": true,
+    "Diners Club": true
+  },
+  "all_test_cards_detected": true
+}
