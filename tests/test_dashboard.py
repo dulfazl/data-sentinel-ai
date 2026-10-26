@@ -40,3 +40,15 @@ def test_resolve_all_alerts(simulated_db):
     next(b for b in at.button if b.label == "Resolve all").click().run()
     assert not at.exception
     assert {m.label: m.value for m in at.metric}["Open alerts"] == "0"
+
+
+def test_hosted_demo_seeds_itself(tmp_path, monkeypatch):
+    """With SENTINEL_DEMO_SEED=1 an empty database is filled with the simulated scenarios."""
+    monkeypatch.setattr("data_sentinel.config.SQLITE_PATH", str(tmp_path / "hosted.db"))
+    monkeypatch.setattr("data_sentinel.config.DATABASE_URL", None)
+    monkeypatch.setenv("SENTINEL_DEMO_SEED", "1")
+    at = AppTest.from_file(os.path.join(ROOT, "dashboard", "app.py"), default_timeout=60)
+    at.run()
+    assert not at.exception, at.exception
+    metrics = {m.label: m.value for m in at.metric}
+    assert metrics["Events"] == "21" and metrics["Blocked"] == "15"

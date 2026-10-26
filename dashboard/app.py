@@ -27,7 +27,13 @@ ICON = {"ALLOW": "✅", "WARN": "⚠️", "BLOCK": "⛔"}
 def get_engine():
     db = Database()
     db.init_schema(seed=False)
-    return Engine(db)
+    engine = Engine(db)
+    # Hosted demo (e.g. Streamlit Community Cloud): start from the simulated scenarios.
+    if os.environ.get("SENTINEL_DEMO_SEED") == "1" and db.event_count() == 0:
+        from data_sentinel import scenarios
+        db.reset()
+        scenarios.run(engine, verbose=False)
+    return engine
 
 
 engine = get_engine()

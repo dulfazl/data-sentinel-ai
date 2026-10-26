@@ -164,7 +164,7 @@ Use a spare stick with nothing important on it, and only the demo files.
    ```bash
    .venv/bin/python -m data_sentinel agent --mail --watch demo_usb --no-cloud --no-shares
    ```
-   and the dashboard in another tab: `.venv/bin/streamlit run dashboard/app.py`
+   and the dashboard in another tab: `.venv/bin/streamlit run dashboard/app.py --server.address 127.0.0.1`
 3. Plug in the stick. Expected within 2 s:
    `[usb] USB:<LABEL>-<id> connected at /Volumes/<LABEL> - N existing file(s) baselined`
    (files already on the stick are never touched). macOS may ask *"Terminal would like to access files

@@ -66,7 +66,7 @@ fi
 
 # ------------------------------------------------------------------ dashboard
 say "Starting the dashboard (log: logs/dashboard.log)..."
-.venv/bin/streamlit run dashboard/app.py > logs/dashboard.log 2>&1 &
+.venv/bin/streamlit run dashboard/app.py --server.address 127.0.0.1 --server.port 8501 > logs/dashboard.log 2>&1 &
 DASH_PID=$!
 cleanup() {
   kill "$DASH_PID" 2>/dev/null

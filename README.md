@@ -33,15 +33,16 @@ The algorithms, weights, thresholds and scenarios are the ones in the project re
 For the live review, follow **[DEMO.md](DEMO.md)**. The IEEE-format project report is in
 [report/](report/Data_Sentinel_AI_IEEE_Report.pdf).
 
-### Online demo dashboard (Render)
+### Online demo dashboard
 
-The dashboard is deployed on Render's free plan from [`render.yaml`](render.yaml): on every start
-it runs `simulate` (fresh scenario data, since Render's disk is temporary) and then serves the
-Streamlit dashboard. The free instance sleeps after 15 minutes without visitors and takes about a
-minute to wake up. The endpoint agent (USB drives, sync folders, browser API, mail gateway) protects
-the computer it runs on, so it always runs locally with `start_demo.command`.
+The dashboard runs on **Streamlit Community Cloud** from this repository (main file
+`dashboard/app.py`, Python 3.13). The app has the secret `SENTINEL_DEMO_SEED = "1"`, so on a fresh
+start it fills itself with the ten simulated scenarios. The endpoint agent (USB drives, sync
+folders, browser API, mail gateway) protects the computer it runs on, so it always runs locally
+with `start_demo.command`.
 
-To deploy your own copy: Render → **New → Blueprint** → pick this repository → **Apply**.
+A Render blueprint ([`render.yaml`](render.yaml), free plan) is also included: Render → **New →
+Blueprint** → pick this repository → **Apply**. It runs `simulate` and then the dashboard.
 
 ---
 
@@ -105,7 +106,7 @@ uses another SQLite file.
 | `try-paste [--host chatgpt.com] [--text ...] [--file F]` | Demo helper: send a paste to the running browser API exactly like the extension does. |
 | `try-mail [--to friend@gmail.com] [--attach FILE ...]` | Demo helper: send a test e-mail through the running mail gateway and print the SMTP reply. |
 
-Dashboard: `.venv/bin/streamlit run dashboard/app.py`
+Dashboard: `.venv/bin/streamlit run dashboard/app.py --server.address 127.0.0.1`
 
 ML: `.venv/bin/python ml/train_eval.py` and `.venv/bin/python ml/compare_algorithms.py`
 
