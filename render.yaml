@@ -1,0 +1,17 @@
+# Render blueprint: the monitoring dashboard with the simulated scenario data.
+# The endpoint agent (USB, sync folders, browser API, mail gateway) protects the computer it runs
+# on, so it is run locally with start_demo.command - not in the cloud.
+services:
+  - type: web
+    name: data-sentinel-ai
+    runtime: python
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    # Fresh demo data on every start (Render's disk is temporary), then the dashboard.
+    startCommand: python -m data_sentinel simulate && streamlit run dashboard/app.py --server.port $PORT --server.address 0.0.0.0
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.3

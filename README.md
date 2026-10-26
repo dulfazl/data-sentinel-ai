@@ -1,7 +1,7 @@
 # Data Sentinel AI
 
 **An AI-powered, multi-channel Data Loss Prevention (DLP) system** — MSc team project
-(Muhammed Dulfazal, Rohen Paul, Adithya Ram).
+(Muhammed Dulfazal, Rohen Paul J, Adithya Ram) · Guide: Dr. Gayathri A. · Python Programming (PAAML503).
 
 Every transfer of data out of the computer — USB drives, cloud sync folders, network shares, website
 uploads / drag-and-drop / pastes, desktop e-mail and over-shared Google Drive files — goes through
@@ -30,7 +30,18 @@ The algorithms, weights, thresholds and scenarios are the ones in the project re
 9. [Project layout](#9-project-layout)
 10. [Known limits](#10-known-limits)
 
-For the live review, follow **[DEMO.md](DEMO.md)**.
+For the live review, follow **[DEMO.md](DEMO.md)**. The IEEE-format project report is in
+[report/](report/Data_Sentinel_AI_IEEE_Report.pdf).
+
+### Online demo dashboard (Render)
+
+The dashboard is deployed on Render's free plan from [`render.yaml`](render.yaml): on every start
+it runs `simulate` (fresh scenario data, since Render's disk is temporary) and then serves the
+Streamlit dashboard. The free instance sleeps after 15 minutes without visitors and takes about a
+minute to wake up. The endpoint agent (USB drives, sync folders, browser API, mail gateway) protects
+the computer it runs on, so it always runs locally with `start_demo.command`.
+
+To deploy your own copy: Render → **New → Blueprint** → pick this repository → **Apply**.
 
 ---
 
