@@ -35,6 +35,8 @@ For the live review, follow **[DEMO.md](DEMO.md)**. The IEEE-format project repo
 
 ### Online demo dashboard
 
+**Live demo: <https://data-sentinel-ai.streamlit.app>**
+
 The dashboard runs on **Streamlit Community Cloud** from this repository (main file
 `dashboard/app.py`, Python 3.13). The app has the secret `SENTINEL_DEMO_SEED = "1"`, so on a fresh
 start it fills itself with the ten simulated scenarios. The endpoint agent (USB drives, sync
